@@ -13,6 +13,9 @@ tcp-echo-server: tcp-echo-server.c
 write: write.o skernel.o
 	${CC} -o $@ $^
 
+ixgbe_napi_disable: ixgbe_napi_disable.o sixgbe_napi_disable.o
+	${CC} ${SLDFLAGS} -o $@ $^
+
 ixgbe: ixgbe.o sixgbe.o
 	${CC} ${SLDFLAGS} -o $@ $^
 
@@ -25,11 +28,17 @@ swrite.o: write.c
 ixgbe.o: ixgbe.c
 	${CC} -c ${SCFLAGS} -o $@ $^
 
+ixgbe_napi_disable.o: ixgbe_napi_disable.c
+	${CC} -c ${SCFLAGS} -o $@ $^
+
 skernel.o: kernel.S
 	${CC} -c ${SCFLAGS} -o $@ $^
 
 sixgbe.o: ixgbe.S
 	${CC} -c ${SCFLAGS} -o $@ $^
 
+sixgbe_napi_disable.o: ixgbe_napi_disable.S
+	${CC} -c ${SCFLAGS} -o $@ $^
+
 clean:
-	rm -rf $(wildcard *.o swrite ixgbe tcp-echo-server)
+	rm -rf $(wildcard *.o swrite ixgbe tcp-echo-server ixgbe_napi_disable ixgbe_napi_enable)
