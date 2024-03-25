@@ -15,26 +15,30 @@ int
 main(int argc, char **argv)
 {
   int rc;
-  int i;
+  unsigned int i;
   unsigned int mcpu;
   int count;
 
   count = atoi(argv[1]);
+  unsigned int ncpus = sysconf(_SC_NPROCESSORS_ONLN);
   
   mcpu = sched_getcpu();
-  printf("count=%d sched_getcpu = %u\n", count, mcpu);
+  printf("count=%d sched_getcpu = %u ncpus=%u\n", count, mcpu, ncpus);
 
+  
   while (count) {
-    SYM_ON_KERN_STACK();
-    
     //rc=han_ixgbe_test(mcpu);
-    rc=han_ixgbe_poll(mcpu, 1);
-    
+    //rc=han_ixgbe_poll(mcpu, 1);
+    SYM_ON_KERN_STACK();
+    for(i=0;i<ncpus;i++) {
+      rc=han_ixgbe_poll(i, 1);
+    }        
     SYM_ON_USER_STACK();
     sleep(1);
     count --;
   }
+  
   printf("rc=%d\n", rc);
-  return rc;
+  return 0;
 }
 

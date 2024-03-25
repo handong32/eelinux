@@ -16,6 +16,9 @@ write: write.o skernel.o
 ixgbe_napi_disable: ixgbe_napi_disable.o sixgbe_napi_disable.o
 	${CC} ${SLDFLAGS} -o $@ $^
 
+ixgbe_napi_enable: ixgbe_napi_enable.o sixgbe_napi_enable.o
+	${CC} ${SLDFLAGS} -o $@ $^
+
 ixgbe: ixgbe.o sixgbe.o
 	${CC} ${SLDFLAGS} -o $@ $^
 
@@ -31,6 +34,9 @@ ixgbe.o: ixgbe.c
 ixgbe_napi_disable.o: ixgbe_napi_disable.c
 	${CC} -c ${SCFLAGS} -o $@ $^
 
+ixgbe_napi_enable.o: ixgbe_napi_enable.c
+	${CC} -c ${SCFLAGS} -o $@ $^
+
 skernel.o: kernel.S
 	${CC} -c ${SCFLAGS} -o $@ $^
 
@@ -40,5 +46,8 @@ sixgbe.o: ixgbe.S
 sixgbe_napi_disable.o: ixgbe_napi_disable.S
 	${CC} -c ${SCFLAGS} -o $@ $^
 
+sixgbe_napi_enable.o: ixgbe_napi_enable.S
+	${CC} -c ${SCFLAGS} -o $@ $^
+
 clean:
-	rm -rf $(wildcard *.o swrite ixgbe tcp-echo-server ixgbe_napi_disable ixgbe_napi_enable)
+	rm -rf $(wildcard *.o swrite tcp-echo-server ixgbe_napi_disable ixgbe_napi_enable)
