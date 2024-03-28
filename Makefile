@@ -13,13 +13,13 @@ tcp-echo-server: tcp-echo-server.c
 write: write.o skernel.o
 	${CC} -o $@ $^
 
-ixgbe_napi_disable: ixgbe_napi_disable.o sixgbe_napi_disable.o
+ixgbe_napi_disable: ixgbe_napi_disable.o skernel.o
 	${CC} ${SLDFLAGS} -o $@ $^
 
-ixgbe_napi_enable: ixgbe_napi_enable.o sixgbe_napi_enable.o
+ixgbe_napi_enable: ixgbe_napi_enable.o skernel.o
 	${CC} ${SLDFLAGS} -o $@ $^
 
-ixgbe_poll: ixgbe.o sixgbe.o
+ixgbe_poll: ixgbe.o skernel.o
 	${CC} ${SLDFLAGS} -o $@ $^
 
 swrite: swrite.o skernel.o 
@@ -38,15 +38,6 @@ ixgbe_napi_enable.o: ixgbe_napi_enable.c
 	${CC} -c ${SCFLAGS} -o $@ $^
 
 skernel.o: kernel.S
-	${CC} -c ${SCFLAGS} -o $@ $^
-
-sixgbe.o: ixgbe.S
-	${CC} -c ${SCFLAGS} -o $@ $^
-
-sixgbe_napi_disable.o: ixgbe_napi_disable.S
-	${CC} -c ${SCFLAGS} -o $@ $^
-
-sixgbe_napi_enable.o: ixgbe_napi_enable.S
 	${CC} -c ${SCFLAGS} -o $@ $^
 
 clean:
