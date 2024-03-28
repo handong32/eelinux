@@ -19,7 +19,7 @@ ixgbe_napi_disable: ixgbe_napi_disable.o sixgbe_napi_disable.o
 ixgbe_napi_enable: ixgbe_napi_enable.o sixgbe_napi_enable.o
 	${CC} ${SLDFLAGS} -o $@ $^
 
-ixgbe: ixgbe.o sixgbe.o
+ixgbe_poll: ixgbe.o sixgbe.o
 	${CC} ${SLDFLAGS} -o $@ $^
 
 swrite: swrite.o skernel.o 
@@ -28,7 +28,7 @@ swrite: swrite.o skernel.o
 swrite.o: write.c
 	${CC} -c ${SCFLAGS} -o $@ $^
 
-ixgbe.o: ixgbe.c
+ixgbe.o: ixgbe_poll.c
 	${CC} -c ${SCFLAGS} -o $@ $^
 
 ixgbe_napi_disable.o: ixgbe_napi_disable.c
@@ -50,4 +50,4 @@ sixgbe_napi_enable.o: ixgbe_napi_enable.S
 	${CC} -c ${SCFLAGS} -o $@ $^
 
 clean:
-	rm -rf $(wildcard *.o swrite tcp-echo-server ixgbe_napi_disable ixgbe_napi_enable)
+	rm -rf $(wildcard *.o swrite tcp-echo-server ixgbe_napi_disable ixgbe_napi_enable ixgbe_poll)
