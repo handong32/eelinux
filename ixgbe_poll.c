@@ -8,8 +8,8 @@
 #include <L0/sym_lib.h>
 #include <L1/stack_switch.h>
 
-extern int han_ixgbe_test(unsigned int i);
-extern int han_ixgbe_poll(unsigned int i, int budget);
+extern int ixgbe_sym_hello(unsigned int i);
+extern int ixgbe_sym_poll(unsigned int i, int budget);
 
 int
 main(int argc, char **argv)
@@ -24,18 +24,17 @@ main(int argc, char **argv)
   
   mcpu = sched_getcpu();
   printf("count=%d sched_getcpu = %u ncpus=%u\n", count, mcpu, ncpus);
-
   
   while (count) {
     //rc=han_ixgbe_test(mcpu);
     //rc=han_ixgbe_poll(mcpu, 1);
     SYM_ON_KERN_STACK();
     for(i=0;i<ncpus;i++) {
-      rc=han_ixgbe_poll(i, 1);
+      rc=ixgbe_sym_poll(i, 64);
     }        
     SYM_ON_USER_STACK();
-    sleep(1);
-    count --;
+    //sleep(1);
+    //count --;
   }
   
   printf("rc=%d\n", rc);

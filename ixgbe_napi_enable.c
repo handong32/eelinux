@@ -6,13 +6,13 @@
 #include <L0/sym_lib.h>
 #include <L1/stack_switch.h>
 
-extern void han_napi_enable(void);
+extern void ixgbe_sym_napi_enable(void);
 
 int
 main(int argc, char **argv)
 {
   SYM_ON_KERN_STACK();
-  han_napi_enable();
+  ixgbe_sym_napi_enable();
   SYM_ON_USER_STACK();
 
   return 0;
