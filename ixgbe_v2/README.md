@@ -220,4 +220,56 @@ count=1 sched_getcpu = 15 ncpus=16
 [  453.366288] CR2: 00007fc4cde37738 CR3: 000000088ef72003 CR4: 00000000000706e0
 [  453.366290] Call Trace:
 
+hand32@node1:~$ cat /proc/sys/kernel/watchdog_thresh 
+0
+hand32@node1:~$ cat /proc/sys/kernel/watchdog
+0
+
+[  521.689928] NETDEV WATCHDOG: enp3s0f0 (ixgbe): transmit queue 1 timed out
+[  521.689951] WARNING: CPU: 9 PID: 0 at net/sched/sch_generic.c:477 dev_watchdog+0x251/0x260
+[  521.689961] Modules linked in: ixgbe(E) nfsv3 nfs_acl nfs lockd grace fscache netfs ipod(OE) sunrpc intel_rapl_msr intel_rapl_common sb_edac x86_pkg_temp_thermal intel_powerclamp coretemp kvm_intel kvm binfmt_misc nls_iso8859_1 ast drm_vram_helper drm_kms_helper ipmi_ssif crct10dif_pclmul syscopyarea crc32_pclmul ghash_clmulni_intel sysfillrect aesni_intel sysimgblt crypto_simd fb_sys_fops cryptd cec rapl rc_core acpi_ipmi drm_ttm_helper ttm ipmi_si intel_cstate input_leds mei_me dcdbas joydev mei ipmi_devintf ioatdma wmi ipmi_msghandler acpi_pad mac_hid sch_fq_codel drm ramoops reed_solomon efi_pstore ip_tables x_tables autofs4 raid10 raid456 libcrc32c async_raid6_recov async_memcpy async_pq async_xor xor async_tx mlx4_ib ib_uverbs ib_core raid6_pq raid1 raid0 multipath linear hid_generic igb usbhid ahci i2c_i801 i2c_algo_bit mdio hid mlx4_core i2c_smbus libahci lpc_ich dca [last unloaded: ixgbe]
+[  521.690363] CPU: 9 PID: 0 Comm: swapper/9 Tainted: G           OE     5.14.0-symbiote+ #3
+[  521.690369] Hardware name: Dell Inc. PowerEdge C6220 II/09N44V, BIOS 2.3.1 01/02/2014
+[  521.690373] RIP: 0010:dev_watchdog+0x251/0x260
+[  521.690378] Code: 35 25 fd ff eb a3 4c 89 ff c6 05 7b c3 10 01 01 e8 44 f1 f9 ff 44 89 e9 4c 89 fe 48 c7 c7 60 a7 67 82 48 89 c2 e8 33 65 16 00 <0f> 0b eb 8c e9 03 9c 1f 00 66 0f 1f 44 00 00 0f 1f 44 00 00 55 48
+[  521.690381] RSP: 0018:ffffc900066a4e70 EFLAGS: 00010282
+[  521.690385] RAX: 0000000000000000 RBX: 0000000000000000 RCX: 000000000000083f
+[  521.690387] RDX: 0000000000000000 RSI: 00000000000000f6 RDI: 000000000000083f
+[  521.690389] RBP: ffffc900066a4ea0 R08: 0000000000000003 R09: fffffffffffd6090
+[  521.690392] R10: 0000000000ffff0a R11: ffffc900066a4d08 R12: ffff888115374f40
+[  521.690396] R13: 0000000000000001 R14: ffff88810b454440 R15: ffff88810b454000
+[  521.690399] FS:  0000000000000000(0000) GS:ffff88905fa40000(0000) knlGS:0000000000000000
+[  521.690402] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  521.690404] CR2: 00005596a44f3b08 CR3: 0000000002810002 CR4: 00000000000706e0
+[  521.690408] Call Trace:
+[  521.690413]  <IRQ>
+[  521.690418]  ? pfifo_fast_enqueue+0x150/0x150
+[  521.690422]  call_timer_fn+0x2b/0x120
+[  521.690428]  __run_timers.part.0+0x1dd/0x250
+[  521.690433]  ? lapic_next_deadline+0x2c/0x40
+[  521.690441]  ? clockevents_program_event+0xa9/0x120
+[  521.690449]  run_timer_softirq+0x2a/0x50
+[  521.690453]  __do_softirq+0xd9/0x2e3
+[  521.690462]  irq_exit_rcu+0xad/0xd0
+[  521.690470]  sysvec_apic_timer_interrupt+0x7c/0x90
+[  521.690479]  </IRQ>
+[  521.690481]  asm_sysvec_apic_timer_interrupt+0x12/0x20
+[  521.690486] RIP: 0010:cpuidle_enter_state+0xd9/0x620
+[  521.690490] Code: 3d d4 59 61 7e e8 17 b9 6f ff 49 89 c7 0f 1f 44 00 00 31 ff e8 e8 c4 6f ff 80 7d d0 00 0f 85 5d 01 00 00 fb 66 0f 1f 44 00 00 <45> 85 f6 0f 88 69 01 00 00 4d 63 ee 49 83 fd 09 0f 87 e3 03 00 00
+[  521.690493] RSP: 0018:ffffc9000640fe38 EFLAGS: 00000246
+[  521.690497] RAX: ffff88905fa6d740 RBX: ffffe8ffffa40600 RCX: 0000000000000000
+[  521.690499] RDX: 0000000000000000 RSI: 0000000000000002 RDI: 0000000000000000
+[  521.690502] RBP: ffffc9000640fe88 R08: 0000007977243777 R09: 00000000000493e0
+[  521.690506] R10: 000000786ba07378 R11: 071c71c71c71c71c R12: ffffffff82ad3220
+[  521.690508] R13: 0000000000000004 R14: 0000000000000004 R15: 0000007977243777
+[  521.690513]  ? cpuidle_enter_state+0xc8/0x620
+[  521.690517]  cpuidle_enter+0x2e/0x40
+[  521.690520]  do_idle+0x203/0x2a0
+[  521.690526]  cpu_startup_entry+0x20/0x30
+[  521.690531]  start_secondary+0x12a/0x180
+[  521.690536]  secondary_startup_64_no_verify+0xc2/0xcb
+[  521.690544] ---[ end trace 134faf2ac47ce2b7 ]---
+[  521.690549] ixgbe 0000:03:00.0 enp3s0f0: initiating reset due to tx timeout
+[  521.690587] ixgbe 0000:03:00.0 enp3s0f0: Reset adapter
+
 ```
