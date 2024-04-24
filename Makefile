@@ -22,6 +22,9 @@ ixgbe_napi_enable: ixgbe_napi_enable.o skernel.o
 ixgbe_poll: ixgbe.o skernel.o
 	${CC} ${SLDFLAGS} -o $@ $^
 
+ixgbe_poll_single: ixgbe_poll_single.o skernel.o
+	${CC} ${SLDFLAGS} -o $@ $^
+
 swrite: swrite.o skernel.o 
 	${CC} ${SLDFLAGS} -o $@ $^
 
@@ -29,6 +32,9 @@ swrite.o: write.c
 	${CC} -c ${SCFLAGS} -o $@ $^
 
 ixgbe.o: ixgbe_poll.c
+	${CC} -c ${SCFLAGS} -o $@ $^
+
+ixgbe_poll_single.o: ixgbe_poll_single.c
 	${CC} -c ${SCFLAGS} -o $@ $^
 
 ixgbe_napi_disable.o: ixgbe_napi_disable.c
