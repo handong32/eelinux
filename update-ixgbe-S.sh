@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #set -x
-export SYMS=${SYMS:="ksys_write han_ixgbe_test han_ixgbe_poll han_napi_disable han_napi_enable"}
+export SYMS=${SYMS:="ksys_write ixgbe_sym_hello ixgbe_sym_napi_enable ixgbe_sym_napi_disable ixgbe_sym_poll"}
 
 rm kernel.S
 touch kernel.S

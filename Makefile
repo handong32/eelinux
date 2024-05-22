@@ -13,6 +13,9 @@ tcp-echo-server: tcp-echo-server.c
 write: write.o skernel.o
 	${CC} -o $@ $^
 
+ixgbe_hello: ixgbe_hello.o skernel.o
+	${CC} ${SLDFLAGS} -o $@ $^
+
 ixgbe_napi_disable: ixgbe_napi_disable.o skernel.o
 	${CC} ${SLDFLAGS} -o $@ $^
 
@@ -34,6 +37,9 @@ swrite.o: write.c
 ixgbe.o: ixgbe_poll.c
 	${CC} -c ${SCFLAGS} -o $@ $^
 
+ixgbe_hello.o: ixgbe_hello.c
+	${CC} -c ${SCFLAGS} -o $@ $^
+
 ixgbe_poll_single.o: ixgbe_poll_single.c
 	${CC} -c ${SCFLAGS} -o $@ $^
 
@@ -47,4 +53,4 @@ skernel.o: kernel.S
 	${CC} -c ${SCFLAGS} -o $@ $^
 
 clean:
-	rm -rf $(wildcard *.o swrite tcp-echo-server ixgbe_napi_disable ixgbe_napi_enable ixgbe_poll)
+	rm -rf $(wildcard *.o swrite tcp-echo-server ixgbe_napi_disable ixgbe_napi_enable ixgbe_poll ixgbe_hello)

@@ -16,26 +16,21 @@ main(int argc, char **argv)
 {
   int rc;
   unsigned int i;
-  unsigned int mcpu;
   int count;
 
   count = atoi(argv[1]);
   unsigned int ncpus = sysconf(_SC_NPROCESSORS_ONLN);
-  
-  mcpu = sched_getcpu();
-  printf("count=%d sched_getcpu = %u ncpus=%u\n", count, mcpu, ncpus);
-  
+
   while (count) {
-    //rc=han_ixgbe_test(mcpu);
-    //rc=han_ixgbe_poll(mcpu, 1);
     SYM_ON_KERN_STACK();
     for(i=0;i<ncpus;i++) {
       rc=ixgbe_sym_poll(i, 64);
-    }        
+    }
     SYM_ON_USER_STACK();
-    //sleep(1);
-    //count --;
+    sleep(1);
+    count --;
   }
+
   
   printf("rc=%d\n", rc);
   return 0;
